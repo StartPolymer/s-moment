@@ -1,0 +1,81 @@
+
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>s-moment demo</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../s-moment.html">
+    <link rel="import" href="../moment-all-locales-script.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+      .vertical-section-container {
+        max-width: 550px;
+      }
+
+      s-moment {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>Current date and date from string (ISO 8601 and another)</h3>
+      <demo-snippet>
+        <template>
+          <s-moment></s-moment>
+          <s-moment hidden></s-moment>
+          <s-moment datetime="1991-12-31"></s-moment>
+          <s-moment datetime="12-31-1991" input-format="MM-DD-YYYY"></s-moment>
+        </template>
+      </demo-snippet>
+
+      <h3>Date from string + format</h3>
+      <demo-snippet>
+        <template>
+          <s-moment datetime="1991-12-31" output-format="l"></s-moment>
+          <s-moment datetime="12-31-1991" input-format="MM-DD-YYYY" output-format="l"></s-moment>
+          <s-moment datetime="1991-12-31" output-format="MMM DD[,] YYYY"></s-moment>
+          <s-moment datetime="31.12.1991" input-format="L" input-locale="cs" output-format="YYYY-MM-DD"></s-moment>
+        </template>
+      </demo-snippet>
+
+      <h3>Date from now or from custom date</h3>
+      <demo-snippet>
+        <template>
+          <s-moment datetime="1991-12-31" from="now"></s-moment>
+          <s-moment datetime="1991-12-31" from="2003-06-23"></s-moment>
+        </template>
+      </demo-snippet>
+
+      <h3>Date to now or to custom date</h3>
+      <demo-snippet>
+        <template>
+          <s-moment datetime="1991-12-31" to="now"></s-moment>
+          <s-moment datetime="1991-12-31" to="2003-06-23"></s-moment>
+        </template>
+      </demo-snippet>
+
+      <h3>Use setInterval to update the output</h3>
+      <demo-snippet>
+        <template>
+          <s-moment id="datetime" from="now"></s-moment>
+
+          <script>
+            var datetime = document.querySelector('#datetime');
+            window.setInterval(function() {
+              datetime.update();
+            }, 2000);
+          </script>
+        </template>
+      </demo-snippet>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,158 @@
+
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="moment-script.html">
+
+<!--
+Polymer element wrapper for the [moment](https://github.com/moment/moment) library.
+
+Examples:
+
+    <s-moment></s-moment>
+    <s-moment datetime="1991-12-31" output-format="MMM DD[,] YYYY"></s-moment>
+
+@demo demo/s-moment.html
+-->
+
+<dom-module id="s-moment">
+<template>
+
+[[_output]]
+
+</template>
+<script>
+
+Polymer({
+  is: 's-moment',
+
+  properties: {
+    /**
+     * The input datetime. If don't set the datetime, the datetime will be now.
+     * For consistent results, parsing anything other than ISO 8601 strings
+     * with the `inputFormat` property. More information in [moment String](http://momentjs.com/docs/#/parsing/string/).
+     */
+    datetime: {
+      type: String,
+      value: function() {
+        return new Date();
+      }
+    },
+
+    /**
+     * The datetime input format. An string using the
+     * [moment String + Format](http://momentjs.com/docs/#/parsing/string-format/).
+     */
+    inputFormat: {
+      type: String,
+      value: ''
+    },
+
+    /**
+     * The datetime input locale.
+     */
+    inputLocale: {
+      type: String,
+      value: ''
+    },
+
+    /**
+     * The datetime output format. Options are 'now' or datetime using the
+     * [moment Format](http://momentjs.com/docs/#/displaying/format/).
+     */
+    outputFormat: {
+      type: String,
+      value: ''
+    },
+
+    /**
+     * The datetime output locale.
+     */
+    outputLocale: {
+      type: String,
+      value: ''
+    },
+
+    /**
+     * Relative time using [momen time from now](http://momentjs.com/docs/#/displaying/fromnow/)
+     * or [momen Time from datetime](http://momentjs.com/docs/#/displaying/from/).
+     */
+    from: {
+      type: String,
+      value: ''
+    },
+
+    /**
+     * Relative time using [momen Time to now](http://momentjs.com/docs/#/displaying/tonow/)
+     * or [momen Time to datetime](http://momentjs.com/docs/#/displaying/to/).
+     */
+    to: {
+      type: String,
+      value: ''
+    },
+
+    /**
+     * Moment instance of output.
+     */
+    moment: {
+      type: Object,
+      notify: true
+    },
+
+    /**
+     * The output datetime value.
+     */
+    value: {
+      type: String,
+      notify: true
+    },
+
+    /**
+     * Strict parsing.
+     */
+    strict: {
+      type: Boolean,
+      value: false
+    },
+
+    /**
+     * Local output datetime.
+     */
+    _output: String
+  },
+
+  observers: [
+    '_computeOutput(datetime, inputFormat, outputFormat, inputLocale, outputLocale, from, to)'
+  ],
+
+  /**
+   * Recomputes the output
+   */
+  update: function() {
+    this._computeOutput(this.datetime, this.inputFormat, this.outputFormat, this.inputLocale, this.outputLocale, this.from, this.to);
+  },
+
+  _computeOutput: function(datetime, inputFormat, outputFormat, inputLocale, outputLocale, from, to) {
+    this.moment = inputFormat ? moment(datetime, inputFormat, inputLocale, this.strict) : moment(datetime);
+
+    if (outputLocale) {
+      this.moment.locale(outputLocale);
+    }
+
+    if (outputFormat) {
+      this.value = this.moment.format(outputFormat);
+    } else if (from) {
+      this.value = from === 'now' ? this.moment.fromNow() : this.moment.from(moment(from));
+    } else if (to) {
+      this.value = to === 'now' ? this.moment.toNow() : this.moment.to(moment(to));
+    } else {
+      this.value = this.moment;
+    }
+
+    if (!this.hidden) {
+      this._output = this.value;
+    }
+  }
+});
+
+</script>
+</dom-module>
