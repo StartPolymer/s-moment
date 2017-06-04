@@ -17,7 +17,7 @@ Contain behavior that validates date and time input using momentjs and optional 
 ```
 
 ```html
-<s-moment-validator date-format="L" locale="cs" validator-name="dateValidator2"></s-moment-validator>
+<s-moment-validator date-format="L" locale="cs" validator-name="dateValidator2" remove-spaces></s-moment-validator>
 <paper-input auto-validate label="Enter a valid czech date (DD.MM.YYYY)" validator="dateValidator2">
 ```
 
@@ -30,7 +30,7 @@ For specific language you need import locale script.
 ## Install
 
 ```
-bower install s-moment --save
+bower install StartPolymer/s-moment --save
 ```
 
 ## Viewing the Element
